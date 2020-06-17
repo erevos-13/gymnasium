@@ -10,7 +10,10 @@ export class UserService {
         private connection: Connection,
     ){}
 
-    findOne(username: string): Promise<UserEntity> {
-        return this.usersRepository.findOne({ where: { username: username } });
+    findOne(email: string): Promise<UserEntity> {
+        return this.usersRepository.findOne({ where: { email: email } });
       }
+
+
+      
 }

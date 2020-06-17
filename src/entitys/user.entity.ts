@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, Generated, UpdateDateColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, Generated, UpdateDateColumn, OneToMany, CreateDateColumn } from "typeorm";
+import { BookingEntity } from './booking.entity';
 
 export enum UserRole {
     ADMIN = 101,
@@ -11,7 +12,7 @@ export enum UserRole {
 @Entity()
 export class UserEntity {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn("uuid")
     id: number;
 
     @Column()
@@ -32,7 +33,7 @@ export class UserEntity {
     role: UserRole;
 
 
-    @UpdateDateColumn()
+    @CreateDateColumn()
     CreatedAt: number
 
     @UpdateDateColumn()
@@ -47,6 +48,9 @@ export class UserEntity {
 
     @Column({ default: "true" })
     active?: string;
+
+    @OneToMany(type => BookingEntity, booking => booking.user)
+    booking?: BookingEntity;
 
 
 }
