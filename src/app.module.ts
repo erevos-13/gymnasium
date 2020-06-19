@@ -12,11 +12,16 @@ import { ClassTypeEntity } from './entitys/classType.entity';
 import { BookingEntity } from './entitys/booking.entity';
 import { BookingController } from './controllers/booking/booking.controller';
 import { BookingModule } from './controllers/booking/booking.module';
+import { ClassesController } from './controllers/classes/classes.controller';
+import { ClassesModule } from './controllers/classes/classes.module';
+import { ClassTypeService } from './controllers/class-type/class-type.service';
+import { ClassTypeModule } from './controllers/class-type/class-type.module';
+import { BookingService } from './controllers/booking/booking.service';
 
 
 @Module({
   imports: [
-    UserModule,
+  UserModule,
     AuthModule,
     ConfigModule.forRoot({
       envFilePath: '.env',
@@ -32,10 +37,12 @@ import { BookingModule } from './controllers/booking/booking.module';
       synchronize: true,
     }),
     BookingModule,
+    ClassesModule,
+    ClassTypeModule,
 
   ],
-  controllers: [AppController, BookingController],
-  providers: [AppService],
+  controllers: [AppController, BookingController, ClassesController],
+  providers: [AppService, ClassTypeService, BookingService],
 })
 export class AppModule {
 }

@@ -13,7 +13,7 @@ export enum UserRole {
 export class UserEntity {
 
     @PrimaryGeneratedColumn("uuid")
-    id: number;
+    id?: number;
 
     @Column()
     @Generated("uuid")
@@ -34,14 +34,14 @@ export class UserEntity {
 
 
     @CreateDateColumn()
-    CreatedAt: number
+    CreatedAt?: number
 
     @UpdateDateColumn()
-    UpdatedAt: number
+    UpdatedAt?: number
   
 
     @Column()
-    email: string;
+    email?: string;
 
     @Column()
     password?: string;

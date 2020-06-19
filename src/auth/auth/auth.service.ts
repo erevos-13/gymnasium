@@ -21,7 +21,7 @@ export class AuthService {
     ) {}
 
     async validateUser(email: string, pass: string): Promise<UserDTO> {
-        const user = await this.userSrv.findOne(email);
+        const user = await this.userSrv.findByEmail( email);
         const comparePass = await bcrypt.compare(pass, user.password);
         if (comparePass) {
           return user;
@@ -30,13 +30,14 @@ export class AuthService {
       }
 
 
-      async login(user: UserInput): Promise<{accessToken: string}> {
+      async login(user: UserInput): Promise<{accessToken: string, userId: string}> {
         this.logger.log(user);
         try {
           const userLogin = await this.validateUser(user.email, user.password);
           const payload = { email: userLogin.email, sub: userLogin.userId };
         return {
           accessToken: this.jwtService.sign(payload),
+          userId: userLogin.userId
         };
         } catch (error) {
           

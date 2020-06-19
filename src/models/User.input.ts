@@ -6,11 +6,11 @@ export class UserInput {
 
     @IsNotEmpty()
     @IsEmail()
-    email: string;
+    email?: string;
 
     @IsNotEmpty()
     @Length(8, 10)
-    password: string;
+    password?: string;
 
     @IsNotEmpty()
     username?: string;

@@ -12,8 +12,8 @@ export class ClassTypeEntity{
     @PrimaryGeneratedColumn("uuid")
     id: string
 
-    @OneToMany(type => ClassEntity, class_ => class_.classType)
-    type: ClassEntity;
+    @Column()
+    type: number;
 
     @Column()
     name: string;
