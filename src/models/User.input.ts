@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsAlphanumeric, MinLength, Length } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsAlphanumeric, MinLength, Length, IsBoolean, IsNumber, IsSemVer, IsString } from 'class-validator';
 
 export class UserInput {
 
@@ -17,6 +17,14 @@ export class UserInput {
 
     @IsNotEmpty()
     lastname?: string;
+
+
+    @IsNumber()
+    role?: number
+
+    @IsNotEmpty()
+    @IsString()
+    gymId:string;
 
 
 

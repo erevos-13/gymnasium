@@ -25,7 +25,8 @@ export class UserService {
             username: user_.username,
             role: user_.role,
             active: user_.active,
-            email: user_.email
+            email: user_.email,
+            gymId: user_.gymId
         }
     }
 

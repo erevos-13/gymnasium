@@ -65,6 +65,8 @@ export class AuthService {
           user.lastname = user_.lastname;
           user.password = passwordHash;
           user.username = user_.username;
+          user.role = user_.role;
+          user.gymId = user_.gymId;
           user.booking = []
           
           const userSave = await this.usersRepository.save(user);

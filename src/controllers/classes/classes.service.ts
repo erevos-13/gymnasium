@@ -45,7 +45,7 @@ export class ClassesService {
         try {
             //INFO found the 
             const foundClass_ = await this.classSrv.find({where: {userId: user.userId}});
-            if (!foundClass_) {
+            if (foundClass_.length === 0) {
                 const error_ = new Error();
                 error_.message = 'Class is not found';
                 error_.stack = `${HttpStatus.NOT_FOUND}`;

@@ -26,7 +26,7 @@ export class BookingController {
     @UseGuards(JwtAuthGuard)
     async get(@Req() req, @Res() res, @Query() query): Promise<any> {
         try {
-            const booking_ = await this.bookingSrv.findByUserId(req.user)
+            const booking_ = await this.bookingSrv.findByUserId(req.user ,query)
             res.status(HttpStatus.OK).send(booking_);
         } catch (error) {
             res.status(error.stack).send(error);

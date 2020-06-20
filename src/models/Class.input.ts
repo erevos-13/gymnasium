@@ -18,6 +18,10 @@ export class ClassInput {
 
     @IsNumber()
     maxParticipant: number;
+
+    @IsNotEmpty()
+    @IsString()
+    gymId: string;
    
 
 }

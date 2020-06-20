@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, Generated, UpdateDateColumn, On
 import { BookingEntity } from './booking.entity';
 
 export enum UserRole {
+    SUPER_ADMIN = 1,
     ADMIN = 101,
     COACH = 102,
     PRACTITIONER = 103,
@@ -30,7 +31,8 @@ export class UserEntity {
     role: UserRole;
 
 
-    
+    @Column()
+    gymId: string;
 
 
     @CreateDateColumn()

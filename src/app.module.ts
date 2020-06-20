@@ -18,7 +18,10 @@ import { ClassTypeService } from './controllers/class-type/class-type.service';
 import { ClassTypeModule } from './controllers/class-type/class-type.module';
 import { BookingService } from './controllers/booking/booking.service';
 import { ClassesService } from './controllers/classes/classes.service';
-
+import { GymController } from './controllers/gym/gym.controller';
+import { GymModule } from './controllers/gym/gym.module';
+import { GymService } from './controllers/gym/gym.service';
+import { GymEntity } from './entitys/gym.entity';
 
 @Module({
   imports: [
@@ -34,16 +37,17 @@ UserModule,
       username: "u344112773_gymnasium_dev",//process.env.NAME,
       password: "Erev0s13!",//process.env.PASSWORD,
       database: "u344112773_gymnasium_dev",//process.env.NAME,
-      entities: [UserEntity, ClassEntity, ClassTypeEntity, BookingEntity],
+      entities: [UserEntity, ClassEntity, ClassTypeEntity, BookingEntity, GymEntity],
       synchronize: true,
     }),
     BookingModule,
     ClassesModule,
     ClassTypeModule,
+    GymModule,
 
   ],
-  controllers: [AppController, BookingController, ClassesController],
-  providers: [AppService, ClassTypeService, BookingService, ClassesService],
+  controllers: [AppController, BookingController, ClassesController, GymController],
+  providers: [AppService, ClassTypeService, BookingService, ClassesService , GymService],
 })
 export class AppModule {
 }

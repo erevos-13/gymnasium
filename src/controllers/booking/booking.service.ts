@@ -1,6 +1,6 @@
 import { Injectable, HttpStatus, Logger } from '@nestjs/common';
 import { BookingEntity } from '../../entitys/booking.entity';
-import { Repository, Connection } from 'typeorm';
+import { Repository, Connection, In } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BookingInput } from '../../models/Booking.input';
 import { UserAuth } from '../../models/User.auth';
@@ -19,6 +19,7 @@ export class BookingService {
 
     async createBookOfUser(body: BookingInput, user_: UserAuth): Promise<BookingDTO> {
         try {
+
             const userRepository = await this.connection.getRepository(UserEntity);
             const userCreateBooking_ = await userRepository.findOne({ where: { userId: user_.userId } });
             if (!userCreateBooking_) {
@@ -29,14 +30,14 @@ export class BookingService {
             }
             const classRepository = await this.connection.getRepository(ClassEntity);
             const classFound = await classRepository.findOne({ where: { id: body.classId } });
-            if (!classFound) {
+            if (classFound) {
                 const error_ = new Error();
-                error_.message = 'Class not found can not create booking';
-                error_.stack = `${HttpStatus.NOT_FOUND}`;
+                error_.message = 'Class found you can not create booking in the same class';
+                error_.stack = `${HttpStatus.FOUND}`;
                 throw error_;
             }
 
-           
+
             try {
                 const book_ = new BookingEntity();
                 book_.classId = classFound.id;
@@ -48,7 +49,7 @@ export class BookingService {
                     id: save_.id,
                     createdAt: save_.CreatedAt,
                     updatedAt: save_.UpdatedAt,
-                    user:{
+                    user: {
                         email: save_.user.email,
                         userId: save_.user.userId,
                         username: save_.user.username,
@@ -73,33 +74,42 @@ export class BookingService {
     }
 
 
-    async findByUserId(user: UserAuth): Promise<BookingDTO[]> {
+    async findByUserId(user: UserAuth, query: {rangeFrom: number, rangeTo: number}): Promise<BookingDTO[]> {
         try {
+            const from_ = +query.rangeFrom || 0;
+            const to_ = +query.rangeTo || 10;
             const bookingRepository = await this.connection.getRepository(BookingEntity)
-            .createQueryBuilder("booking_entity")
-            .leftJoinAndSelect("booking_entity.user", "user_entity")
-            .where("booking_entity.userUserId = :name", { name: `${user.userId}` })
-            .getMany();
+                .createQueryBuilder("booking_entity")
+                .leftJoinAndSelect("booking_entity.user", "user_entity")
+                .where("booking_entity.userUserId = :name", { name: `${user.userId}` })
+                .skip(from_)
+                .take(to_)
+                .getMany();
             this.logger.log(bookingRepository);
+            const classesId_: string[] = bookingRepository.map((item) =>{
+                return item.classId;
+            } )
+            let classes_: ClassEntity[]
+            try {
+                classes_  = await this.connection.getRepository(ClassEntity)
+            .find({
+                id: In(classesId_)
+            });
+            } catch (error) {
+                classes_ = [];
+            }
             const response = [];
             bookingRepository.forEach((item) => {
                 const dto: BookingDTO = {
                     id: item.id,
                     bookingId: item.bookingId,
                     createdAt: item.CreatedAt,
-                    classId: item.classId,
-                    updatedAt: item.UpdatedAt,
-                    user: {
-                        userId: item.user.userId,
-                        email: item.user.email,
-                        username: item.user.username,
-                        lastname: item.user.lastname
-                    }
-
-                } 
+                    class: classes_,
+                    updatedAt: item.UpdatedAt
+                }
                 response.push(dto);
             })
-            
+
             return response;
         } catch (error) {
             throw error;
