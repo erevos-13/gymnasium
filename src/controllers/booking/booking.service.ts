@@ -30,7 +30,19 @@ export class BookingService {
             }
             const classRepository = await this.connection.getRepository(ClassEntity);
             const classFound = await classRepository.findOne({ where: { id: body.classId } });
-            if (classFound) {
+            if(!classFound) {
+                const error_ = new Error();
+                error_.message = 'Class not found you can not create booking in the same class';
+                error_.stack = `${HttpStatus.FOUND}`;
+                throw error_;
+            }
+            const bookingRepository = await this.connection.getRepository(BookingEntity)
+                .createQueryBuilder("booking_entity")
+                .leftJoinAndSelect("booking_entity.user", "user_entity")
+                .where("booking_entity.userUserId = :userId", { userId: `${user_.userId}` })
+                .andWhere("booking_entity.classId = :classId", {classId: `${body.classId}`})
+                .getMany();
+            if (bookingRepository.length !== 0) {
                 const error_ = new Error();
                 error_.message = 'Class found you can not create booking in the same class';
                 error_.stack = `${HttpStatus.FOUND}`;

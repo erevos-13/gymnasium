@@ -24,7 +24,7 @@ export class ClassesController {
     @UseGuards(JwtAuthGuard)
     async get(@Request() req, @Res() res, @Query() query) {
         try {
-            const class_ = await this.classesSrv.find(req.user)
+            const class_ = await this.classesSrv.find(query.gymId)
             if (class_.length === 0) {
                 res.status(HttpStatus.NO_CONTENT).send(class_);
             }

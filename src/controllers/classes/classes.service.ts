@@ -31,7 +31,11 @@ export class ClassesService {
             class_.hour = body.hour;
             class_.maxParticipant = body.maxParticipant;
             class_.classType = body.classType;
-            class_.userId = user.userId
+            class_.userId = user.userId;
+            class_.gymId = body.gymId;
+            class_.dateStart = body.dateStart;
+            class_.dateEnd = body.dateEnd;
+            
 
             const save_ = await this.classSrv.save(class_);
             return save_;
@@ -41,10 +45,10 @@ export class ClassesService {
         }
     }
 
-    async find(user: UserAuth) {
+    async find(gymId: string) {
         try {
             //INFO found the 
-            const foundClass_ = await this.classSrv.find({where: {userId: user.userId}});
+            const foundClass_ = await this.classSrv.find({where: {gymId: gymId}});
             if (foundClass_.length === 0) {
                 const error_ = new Error();
                 error_.message = 'Class is not found';

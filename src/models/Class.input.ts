@@ -8,9 +8,12 @@ export class ClassInput {
     hour?: string;
 
     @IsNotEmpty()
-    @IsString()
-    date?: number;
+    @IsNumber()
+    dateStart?: number;
 
+    @IsNotEmpty()
+    @IsNumber()
+    dateEnd?: number;
 
     @IsNotEmpty()
     @IsNumber()

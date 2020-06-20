@@ -28,7 +28,17 @@ export class ClassEntity {
     UpdatedAt: number
 
     @Column()
+    dateStart: number;
+
+    @Column()
+    dateEnd: number;
+    
+    @Column()
     maxParticipant: number;
+
+
+    @Column()
+    gymId: string;
 
 
 

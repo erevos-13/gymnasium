@@ -31,6 +31,8 @@ export class UserEntity {
     role: UserRole;
 
 
+    
+
     @Column()
     gymId: string;
 
