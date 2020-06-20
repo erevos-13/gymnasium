@@ -2,9 +2,6 @@ import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
 
 export class ClassInput {
 
-    @IsNotEmpty()
-    @IsNumber()
-    classId?: number;
 
     @IsNotEmpty()
     @IsString()
@@ -12,24 +9,13 @@ export class ClassInput {
 
     @IsNotEmpty()
     @IsString()
-    date?: string;
+    date?: number;
 
 
     @IsNotEmpty()
     @IsNumber()
-    attendants: number;
+    classType: number;
 
-    
-
-    @IsNotEmpty()
-    @IsNumber()
-    CreatedAt: number;
-
-    @IsNotEmpty()
-    @IsNumber()
-    UpdatedAt: number;
-
-    @IsNotEmpty()
     @IsNumber()
     maxParticipant: number;
    

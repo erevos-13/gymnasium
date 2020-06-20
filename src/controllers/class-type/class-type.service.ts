@@ -27,4 +27,18 @@ export class ClassTypeService {
             throw error_;
         }
     }
+
+
+    async findAll() {
+        try {
+            const classType = await this.classTypeSrv.find();
+            return classType;
+            
+        } catch (error) {
+            const error_ = new Error();
+            error_.message = 'User not found';
+            error_.stack = `${HttpStatus.NOT_FOUND}`;
+            throw error_;
+        }
+    }
 }

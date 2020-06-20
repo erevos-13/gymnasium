@@ -12,11 +12,8 @@ export enum UserRole {
 @Entity()
 export class UserEntity {
 
-    @PrimaryGeneratedColumn("uuid")
-    id?: number;
 
-    @Column()
-    @Generated("uuid")
+    @PrimaryGeneratedColumn("uuid")
     userId: string;
 
     @Column()
@@ -31,6 +28,9 @@ export class UserEntity {
         default: UserRole.GUEST
     })
     role: UserRole;
+
+
+    
 
 
     @CreateDateColumn()
@@ -50,7 +50,7 @@ export class UserEntity {
     active?: string;
 
     @OneToMany(type => BookingEntity, booking => booking.user)
-    booking?: BookingEntity;
+    booking?: BookingEntity[];
 
 
 }

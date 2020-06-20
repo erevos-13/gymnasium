@@ -17,11 +17,12 @@ import { ClassesModule } from './controllers/classes/classes.module';
 import { ClassTypeService } from './controllers/class-type/class-type.service';
 import { ClassTypeModule } from './controllers/class-type/class-type.module';
 import { BookingService } from './controllers/booking/booking.service';
+import { ClassesService } from './controllers/classes/classes.service';
 
 
 @Module({
   imports: [
-  UserModule,
+UserModule,
     AuthModule,
     ConfigModule.forRoot({
       envFilePath: '.env',
@@ -42,7 +43,7 @@ import { BookingService } from './controllers/booking/booking.service';
 
   ],
   controllers: [AppController, BookingController, ClassesController],
-  providers: [AppService, ClassTypeService, BookingService],
+  providers: [AppService, ClassTypeService, BookingService, ClassesService],
 })
 export class AppModule {
 }

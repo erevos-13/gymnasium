@@ -1,4 +1,61 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ClassEntity } from '../../entitys/class.entity';
+import { Connection, Repository } from 'typeorm';
+import { ClassInput } from '../../models/Class.input';
+import { ClassTypeEntity } from '../../entitys/classType.entity';
+import { use } from 'passport';
+import { UserAuth } from '../../models/User.auth';
 
 @Injectable()
-export class ClassesService {}
+export class ClassesService {
+    constructor(
+        @InjectRepository(ClassEntity) private classSrv: Repository<ClassEntity>,
+        @InjectRepository(ClassTypeEntity) private classTypeSrv: Repository<ClassTypeEntity>,
+        private connection: Connection,
+    ) { }
+
+    async createClasses(body: ClassInput, user: UserAuth): Promise<ClassEntity> {
+        try {
+            //INFO found the 
+            const foundClassType_ = await this.classTypeSrv.findOne({ where: { type: body.classType } });
+            if (!foundClassType_) {
+                const error_ = new Error();
+                error_.message = 'Class type you pass is not found';
+                error_.stack = `${HttpStatus.NOT_FOUND}`;
+                throw error_;
+                
+
+            }
+            const class_ = new ClassEntity();
+            class_.hour = body.hour;
+            class_.maxParticipant = body.maxParticipant;
+            class_.classType = body.classType;
+            class_.userId = user.userId
+
+            const save_ = await this.classSrv.save(class_);
+            return save_;
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async find(user: UserAuth) {
+        try {
+            //INFO found the 
+            const foundClass_ = await this.classSrv.find({where: {userId: user.userId}});
+            if (!foundClass_) {
+                const error_ = new Error();
+                error_.message = 'Class is not found';
+                error_.stack = `${HttpStatus.NOT_FOUND}`;
+                throw error_;
+            }
+            return foundClass_;
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+}

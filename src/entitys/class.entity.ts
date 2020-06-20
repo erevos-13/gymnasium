@@ -1,4 +1,4 @@
-import { PrimaryGeneratedColumn, Generated, Column, ManyToOne, Entity } from "typeorm";
+import { PrimaryGeneratedColumn, Generated, Column, ManyToOne, Entity, CreateDateColumn } from "typeorm";
 import { ClassTypeEntity } from './classType.entity';
 
 @Entity()
@@ -7,23 +7,28 @@ export class ClassEntity {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
-    @Column()
-    classId: string;
+  
 
     @Column()
     hour: string;
 
-    @Column()
+    @Column({default: 0})
     attendants: number;
 
-    @ManyToOne(type => ClassTypeEntity, classType => classType.type)
-    classType: ClassTypeEntity;
+    @Column()
+    userId: string;
 
     @Column()
-    CreatedAt: number;
+    classType: number;
 
-    @Column()
+    @CreateDateColumn()
+    CreatedAt: number
+
+    @CreateDateColumn()
     UpdatedAt: number
+
+    @Column()
+    maxParticipant: number;
 
 
 

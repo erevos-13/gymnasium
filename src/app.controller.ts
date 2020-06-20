@@ -1,4 +1,4 @@
-import { Controller, Get, Logger, Post, UseGuards, Req, Body } from '@nestjs/common';
+import { Controller, Get, Logger, Post, UseGuards, Req, Body, Res, HttpStatus } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth/auth/auth.service';
@@ -24,9 +24,14 @@ export class AppController {
   }
 
   @Post('auth/create')
-  async create( @Body() body:UserInput): Promise<UserDTO>{
+  async create(@Req() req, @Res() res, @Body() body:UserInput){
     this.logger.log(body);
-    return this.authService.create(body);
+    try {
+      const user_ = await this.authService.create(body);
+      res.status(HttpStatus.OK).send(user_);
+    } catch (error) {
+      res.status(error.stack).send(error);
+    }
   }
 
 }

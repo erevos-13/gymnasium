@@ -18,7 +18,7 @@ import { UserEntity } from "./user.entity";
 @Entity()
 export class BookingEntity {
     @PrimaryGeneratedColumn("uuid")
-    id: number;
+    id: string;
 
 
     @Column()
@@ -29,10 +29,11 @@ export class BookingEntity {
     classId: string;
 
     @CreateDateColumn()
-    CreatedAt: number
+    CreatedAt: string;
+
 
     @UpdateDateColumn()
-    UpdatedAt: number
+    UpdatedAt: string
 
     @ManyToOne(type => UserEntity, user => user.booking)
     user: UserEntity;

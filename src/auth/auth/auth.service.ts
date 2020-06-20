@@ -50,11 +50,11 @@ export class AuthService {
 
       async create(user_: UserInput): Promise<UserDTO> {
         const findSameUser = await this.usersRepository.findOne({
-          where: { username: user_.email },
+          where: { email: user_.email },
         });
         if (findSameUser) {
           const error = new Error();
-          error.message = 'User with the same username';
+          error.message = 'User with the same email';
           error.stack = `${HttpStatus.FOUND}`;
           throw error;
         }
@@ -65,6 +65,7 @@ export class AuthService {
           user.lastname = user_.lastname;
           user.password = passwordHash;
           user.username = user_.username;
+          user.booking = []
           
           const userSave = await this.usersRepository.save(user);
     
@@ -75,7 +76,6 @@ export class AuthService {
             role: userSave.role
           };
         } catch (error) {
-          console.log(error);
           return error;
         }
       }
