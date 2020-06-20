@@ -4,6 +4,7 @@ import { UserInput } from '../../models/User.input';
 import { JwtAuthGuard } from '../../auth/auth/jwt-auth.guard';
 import { GetProfile } from '../../models/GetProfile';
 import { UpdateUserInput } from '../../models/UpdateRole.input';
+import { UserUpdateInput } from '../../models/UserUpdate.input';
 
 @Controller('user')
 export class UserController {
@@ -38,5 +39,15 @@ export class UserController {
     }
   
 
+    @Post('update-user')
+    @UseGuards(JwtAuthGuard)
+    async updateUser(@Req() req, @Res() res,@Body() body: UserUpdateInput) {
+        try {
+            const user_ = await this.userSrv.updateUser(body, req.user);
+            res.status(HttpStatus.OK).send(user_);
+        } catch (error) {
+           res.status(error.stack).send(error);
+        }
+    }
 
 }
