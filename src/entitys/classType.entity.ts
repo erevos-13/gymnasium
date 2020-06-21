@@ -21,6 +21,9 @@ export class ClassTypeEntity{
     @Column()
     value: string;
 
+    @Column()
+    gymId: string;
+
     @UpdateDateColumn()
     CreatedAt: number;
 

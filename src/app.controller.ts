@@ -18,9 +18,16 @@ export class AppController {
 
   @Post('auth/login')
   @UseGuards(LocalStrategy)
-  async login(@Body() body: any): Promise<{ accessToken: string }> {
+  async login(@Body() body: any,@Req() req, @Res() res) {
     this.logger.log(body);
-    return this.authService.login(body);
+    try {
+      const login_ =await this.authService.login(body);
+      res.status(HttpStatus.OK).send(login_);
+
+    } catch (error) {
+      res.status(error.stack).send(error);
+
+    }
   }
 
   @Post('auth/create')

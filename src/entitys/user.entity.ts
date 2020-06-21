@@ -30,9 +30,6 @@ export class UserEntity {
     })
     role: UserRole;
 
-
-    
-
     @Column()
     gymId: string;
 
@@ -50,7 +47,7 @@ export class UserEntity {
     @Column()
     password?: string;
 
-    @Column({ default: "true" })
+    @Column({ default: true })
     active?: string;
 
     @OneToMany(type => BookingEntity, booking => booking.user)

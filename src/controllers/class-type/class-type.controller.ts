@@ -15,7 +15,7 @@ export class ClassTypeController {
     @UseGuards(JwtAuthGuard)
     async create(@Body() body : ClassTypeInput, @Req() req, @Res() res) {
         try {
-            const user_ = await this.classTypeSrv.createClassType(body)
+            const user_ = await this.classTypeSrv.createClassType(body, req.user)
             res.status(HttpStatus.OK).send(user_);
         } catch (error) {
             res.status(error.stack).send(error);
@@ -27,7 +27,7 @@ export class ClassTypeController {
     @UseGuards(JwtAuthGuard)
     async get( @Req() req, @Res() res, @Query() query): Promise<any>  {
         try {
-            const classType_ = await this.classTypeSrv.findAll()
+            const classType_ = await this.classTypeSrv.findAll(req.user)
             res.status(HttpStatus.OK).send(classType_);
         } catch (error) {
             res.status(error.stack).send(error);

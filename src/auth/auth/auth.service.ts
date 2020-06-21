@@ -22,8 +22,11 @@ export class AuthService {
 
     async validateUser(email: string, pass: string): Promise<UserDTO> {
         const user = await this.userSrv.findByEmail( email);
+        if(!user) {
+          return null
+        }
         const comparePass = await bcrypt.compare(pass, user.password);
-        if (comparePass) {
+        if (comparePass && (+user.active === 1)) {
           return user;
         }
         return null;
@@ -40,7 +43,10 @@ export class AuthService {
           userId: userLogin.userId
         };
         } catch (error) {
-          
+          const error_ = new Error();
+          error_.message = 'User Can not login';
+          error_.stack = `${HttpStatus.UNAUTHORIZED}`;
+          throw error_;
           
         }
         
