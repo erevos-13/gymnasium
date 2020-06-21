@@ -50,4 +50,15 @@ export class UserController {
         }
     }
 
+    @Get('all-users')
+    @UseGuards(JwtAuthGuard)
+    async getAllUsers(@Req() req, @Res() res) {
+        try {
+            const user_ = await this.userSrv.getUsers(req.user);
+            res.status(HttpStatus.OK).send(user_);
+        } catch (error) {
+           res.status(error.stack).send(error);
+        }
+    }
+
 }

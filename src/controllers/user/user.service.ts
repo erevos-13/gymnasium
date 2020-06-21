@@ -126,5 +126,37 @@ export class UserService {
     }
 
 
+    async getUsers(user: UserEntity): Promise<any> {
+        try {
+            const userFound = await this.usersRepository.findOne({ userId: user.userId });
+            if(!userFound) {
+                const error_ = new Error();
+                error_.message = 'User not found';
+                error_.stack = `${HttpStatus.NOT_FOUND}`;
+                throw error_;
+            }
+            let query_ = {};
+            switch (userFound.role) {
+                case UserRole.SUPER_ADMIN:
+                    query_ = {};
+                    break;
+                case UserRole.ADMIN:
+                    query_ = Object.assign({},{where: {gymId: userFound.gymId}});
+                    break;
+                default:
+                    break;
+            }
+            const allUsers_ = await this.usersRepository.find(query_);
+            if(allUsers_.length === 0) {
+                const error_ = new Error();
+                error_.message = 'Users not found';
+                error_.stack = `${HttpStatus.NO_CONTENT}`;
+                throw error_;
+            }
+            return allUsers_;
+        } catch (error) {
+            throw error
+        }
+    }
 
 }
