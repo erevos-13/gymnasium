@@ -34,9 +34,12 @@ export class UserService {
         }
     }
 
-   async findByEmail(email: string): Promise<UserEntity> {
+    async findByEmail(email: string): Promise<UserEntity> {
         try {
             const user = await this.usersRepository.findOne({ where: { email: email } });
+            if (!user) {
+                throw null;
+            }
             return user;
         } catch (error) {
             return null
@@ -85,34 +88,34 @@ export class UserService {
     async updateUser(userInput: UserUpdateInput, user: UserAuth): Promise<any> {
         try {
             const userFound = await this.usersRepository.findOne({ userId: user.userId });
-            if(!userFound) {
+            if (!userFound) {
                 const error_ = new Error();
                 error_.message = 'User not found';
                 error_.stack = `${HttpStatus.NOT_FOUND}`;
                 throw error_;
             }
             let userObjectToUpdate = {};
-            if(userInput.lastname) {
-                userObjectToUpdate = Object.assign({},{lastname: userInput.lastname});
+            if (userInput.lastname) {
+                userObjectToUpdate = Object.assign({}, { lastname: userInput.lastname });
             }
-            if(userInput.email) {
-                userObjectToUpdate = Object.assign({},{email: userInput.email});
+            if (userInput.email) {
+                userObjectToUpdate = Object.assign({}, { email: userInput.email });
             }
-            if(userInput.password) {
+            if (userInput.password) {
                 const passwordHash = await bcrypt.hash(userInput.password, 8);
-                userObjectToUpdate = Object.assign({},{password: passwordHash});
+                userObjectToUpdate = Object.assign({}, { password: passwordHash });
             }
-            if(userInput.username) {
-                userObjectToUpdate = Object.assign({},{username: userInput.username});
+            if (userInput.username) {
+                userObjectToUpdate = Object.assign({}, { username: userInput.username });
             }
-            
+
             try {
                 await this.connection.createQueryBuilder()
-                        .update(UserEntity)
-                        .set(userObjectToUpdate)
-                        .where("userId = :userId", { userId: user.userId })
-                        .execute();
-            return userInput
+                    .update(UserEntity)
+                    .set(userObjectToUpdate)
+                    .where("userId = :userId", { userId: user.userId })
+                    .execute();
+                return userInput
             } catch (error) {
                 const error_ = new Error();
                 error_.message = 'User not Updated';
@@ -129,7 +132,7 @@ export class UserService {
     async getUsers(user: UserEntity): Promise<any> {
         try {
             const userFound = await this.usersRepository.findOne({ userId: user.userId });
-            if(!userFound) {
+            if (!userFound) {
                 const error_ = new Error();
                 error_.message = 'User not found';
                 error_.stack = `${HttpStatus.NOT_FOUND}`;
@@ -141,13 +144,17 @@ export class UserService {
                     query_ = {};
                     break;
                 case UserRole.ADMIN:
-                    query_ = Object.assign({},{where: {gymId: userFound.gymId}});
+                    query_ = Object.assign({}, { where: { gymId: userFound.gymId } });
                     break;
                 default:
+                    const error_ = new Error();
+                    error_.message = 'User have not the permission to see users';
+                    error_.stack = `${HttpStatus.NON_AUTHORITATIVE_INFORMATION}`;
+                    throw error_;
                     break;
             }
             const allUsers_ = await this.usersRepository.find(query_);
-            if(allUsers_.length === 0) {
+            if (allUsers_.length === 0) {
                 const error_ = new Error();
                 error_.message = 'Users not found';
                 error_.stack = `${HttpStatus.NO_CONTENT}`;

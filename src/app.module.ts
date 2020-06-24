@@ -1,3 +1,6 @@
+import { NewsFeedService } from './controllers/newsFeed/newsfeed.service';
+import { NewsFeedModule } from './controllers/newsFeed/newsfeed.module';
+import { NewsFeedController } from './controllers/newsFeed/newsfeed.controller';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -22,10 +25,13 @@ import { GymController } from './controllers/gym/gym.controller';
 import { GymModule } from './controllers/gym/gym.module';
 import { GymService } from './controllers/gym/gym.service';
 import { GymEntity } from './entitys/gym.entity';
+import { ApiModule } from './controllers/api/api.module';
+import { NewsFeedEntity } from './entitys/newsFeed.entity';
 
 @Module({
   imports: [
-UserModule,
+    NewsFeedModule,
+    UserModule,
     AuthModule,
     ConfigModule.forRoot({
       envFilePath: '.env',
@@ -37,17 +43,21 @@ UserModule,
       username: "u344112773_gymnasium_dev",//process.env.NAME,
       password: "Erev0s13!",//process.env.PASSWORD,
       database: "u344112773_gymnasium_dev",//process.env.NAME,
-      entities: [UserEntity, ClassEntity, ClassTypeEntity, BookingEntity, GymEntity],
+      entities: [UserEntity, ClassEntity, ClassTypeEntity, BookingEntity, GymEntity, NewsFeedEntity],
       synchronize: true,
     }),
     BookingModule,
     ClassesModule,
     ClassTypeModule,
     GymModule,
+    ApiModule,
 
   ],
-  controllers: [AppController, BookingController, ClassesController, GymController],
-  providers: [AppService, ClassTypeService, BookingService, ClassesService , GymService],
+  controllers: [
+    NewsFeedController,
+    NewsFeedController, AppController, BookingController, ClassesController, GymController],
+  providers: [
+    NewsFeedService, AppService, ClassTypeService, BookingService, ClassesService, GymService],
 })
 export class AppModule {
 }

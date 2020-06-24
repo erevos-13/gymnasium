@@ -49,7 +49,7 @@ export class UserController {
            res.status(error.stack).send(error);
         }
     }
-
+ 
     @Get('all-users')
     @UseGuards(JwtAuthGuard)
     async getAllUsers(@Req() req, @Res() res) {
