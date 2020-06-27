@@ -23,7 +23,8 @@ module.exports = {
       USER: 'u344112773_gymnasium_prod',
       PASSWORD: 'Erev0s13!',
       DATABASE: 'u344112773_gymnasium_prod',
-      FILE_URL: "45.15.25.147/pub",
+      FILE_URL_PATH_SAVE: "folders/newsFeed/images",
+      FILE_URL_LINK: "45.15.25.147/pub",
       PORT_URL: 3000,
     }
 
