@@ -6,11 +6,11 @@
     "deploy" : {
       "env_production" : {
         "user" : "ubuntu",
-        "host" : ["192.168.0.13"],
+        "host" : ["craven-advertisement.com"],
         "ref"  : "origin/master",
-        "repo" : "git@github.com:Username/repository.git",
-        "path" : "/var/www/my-repository",
+        "repo" : "git@github.com:erevos-13/repository.git",
+        "path" : "/var/www/gymnasium",
         "post-deploy" : "npm install; grunt dist"
-       },
+       }
     }
  }

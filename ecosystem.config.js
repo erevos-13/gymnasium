@@ -33,16 +33,42 @@ module.exports = {
     // watch: ['./service-worker']
   }],
 
+  // Deployment part
+  // Here you describe each environment
   deploy : {
-    production : {
-      user : 'SSH_USERNAME',
-      host : 'SSH_HOSTMACHINE',
-      ref  : 'origin/master',
-      repo : 'GIT_REPOSITORY',
-      path : 'DESTINATION_PATH',
-      'pre-deploy-local': '',
-      'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env production',
-      'pre-setup': ''
+    env_production : {
+      "user" : "node",
+      // Multi host is possible, just by passing IPs/hostname as an array
+      "host" : ["31.220.19.53"],
+      // Branch
+      "ref"  : "origin/master",
+      // Git repository to clone
+      "repo" : "https://github.com/erevos-13/gymnasium.git",
+      // Path of the application on target servers
+      "path" : "/var/www/pub",
+      // Can be used to give options in the format used in the configura-
+      // tion file.  This is useful for specifying options for which there
+      // is no separate command-line flag, see 'man ssh'
+      // can be either a single string or an array of strings
+      "ssh_options": "StrictHostKeyChecking=no",
+      // To prepare the host by installing required software (eg: git)
+      // even before the setup process starts
+      // can be multiple commands separated by the character ";"
+      // or path to a script on your local machine
+      "pre-setup" : "apt-get install git",
+      // Commands / path to a script on the host machine
+      // This will be executed on the host after cloning the repository
+      // eg: placing configurations in the shared dir etc
+      "post-setup": "ls -la",
+      // Commands to execute locally (on the same machine you deploy things)
+      // Can be multiple commands separated by the character ";"
+      "pre-deploy-local" : "echo 'This is a local executed command'",
+      // Commands to be executed on the server after the repo has been cloned
+      "post-deploy" : "npm install && pm2 startOrRestart ecosystem.json --env production",
+      // Environment variables that must be injected in all applications on this env
+      "env"  : {
+        "NODE_ENV": "production"
+      }
     }
   }
 };
