@@ -45,7 +45,7 @@ module.exports = {
       // Git repository to clone
       "repo" : "git@github.com:erevos-13/gymnasium.git",
       // Path of the application on target servers
-      "path" : "/var/www/pub/source",
+      "path" : "/var/www/pub/",
       // Can be used to give options in the format used in the configura-
       // tion file.  This is useful for specifying options for which there
       // is no separate command-line flag, see 'man ssh'
