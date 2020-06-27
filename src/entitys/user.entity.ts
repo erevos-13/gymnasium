@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, Generated, UpdateDateColumn, OneToMany, CreateDateColumn } from "typeorm";
 import { BookingEntity } from './booking.entity';
+import { MetadataEntity } from "./metadata.entity";
 
 export enum UserRole {
     SUPER_ADMIN = 1,
@@ -52,6 +53,9 @@ export class UserEntity {
 
     @OneToMany(type => BookingEntity, booking => booking.user)
     booking?: BookingEntity[];
+
+    @OneToMany(type => MetadataEntity, metadata => metadata.user)
+    metadata?: MetadataEntity
 
 
 }

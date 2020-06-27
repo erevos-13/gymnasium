@@ -6,6 +6,8 @@ import { UserAuth } from '../../models/User.auth';
 import { UpdateUserInput } from '../../models/UpdateRole.input';
 import { UserUpdateInput } from '../../models/UserUpdate.input';
 import * as bcrypt from 'bcryptjs';
+import { MetadataEntity } from '../../entitys/metadata.entity';
+import * as _ from "lodash";
 
 @Injectable()
 export class UserService {
@@ -23,6 +25,17 @@ export class UserService {
             throw error_;
         }
 
+        const metadata_ = await this.connection.createQueryBuilder(MetadataEntity, 'metadata')
+        .where("userUserId = :userId", { userId: user_.userId })
+        .select([
+            "metadata.key",
+            "metadata.value"
+        ])
+        .execute();
+        
+       
+
+
         return {
             userId: user_.userId,
             lastname: user_.lastname,
@@ -30,7 +43,8 @@ export class UserService {
             role: user_.role,
             active: user_.active,
             email: user_.email,
-            gymId: user_.gymId
+            gymId: user_.gymId,
+            metadata: metadata_
         }
     }
 

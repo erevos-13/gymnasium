@@ -28,6 +28,10 @@ import { GymEntity } from './entitys/gym.entity';
 import { ApiModule } from './controllers/api/api.module';
 import { NewsFeedEntity } from './entitys/newsFeed.entity';
 import { MulterModule } from '@nestjs/platform-express';
+import { MetadataController } from './controllers/metadata/metadata.controller';
+import { MetadataModule } from './controllers/metadata/metadata.module';
+import { MetadataService } from './controllers/metadata/metadata.service';
+import { MetadataEntity } from './entitys/metadata.entity';
 
 @Module({
   imports: [
@@ -44,7 +48,7 @@ import { MulterModule } from '@nestjs/platform-express';
       username: "u344112773_gymnasium_dev",//process.env.NAME,
       password: "Erev0s13!",//process.env.PASSWORD,
       database: "u344112773_gymnasium_dev",//process.env.NAME,
-      entities: [UserEntity, ClassEntity, ClassTypeEntity, BookingEntity, GymEntity, NewsFeedEntity],
+      entities: [UserEntity, ClassEntity, ClassTypeEntity, BookingEntity, GymEntity, NewsFeedEntity, MetadataEntity],
       synchronize: true,
     }),
     BookingModule,
@@ -52,12 +56,13 @@ import { MulterModule } from '@nestjs/platform-express';
     ClassTypeModule,
     GymModule,
     ApiModule,
-   
+    MetadataModule,
+
   ],
   controllers: [
-    NewsFeedController, AppController, BookingController, ClassesController, GymController],
+    NewsFeedController, AppController, BookingController, ClassesController, GymController, MetadataController],
   providers: [
-    NewsFeedService, AppService, ClassTypeService, BookingService, ClassesService, GymService],
+    NewsFeedService, AppService, ClassTypeService, BookingService, ClassesService, GymService, MetadataService],
 })
 export class AppModule {
 }
