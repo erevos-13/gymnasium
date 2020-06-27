@@ -15,7 +15,7 @@ module.exports = {
       FILE_URL_PATH_SAVE: "folders/newsFeed/images",
       FILE_URL_LINK: "http://localhost:3000"
     },
-    env_production : {
+    production : {
       NODE_ENV: "production",
       NAME: 'u344112773_gymnasium_prod',
       HOST: 'sql307.main-hosting.eu',
@@ -36,14 +36,14 @@ module.exports = {
   // Deployment part
   // Here you describe each environment
   deploy : {
-    env_production : {
-      "user" : "node",
+    production : {
+      "user" : "root",
       // Multi host is possible, just by passing IPs/hostname as an array
-      "host" : ["31.220.19.53"],
+      "host" : ["45.15.25.147"],
       // Branch
       "ref"  : "origin/master",
       // Git repository to clone
-      "repo" : "https://github.com/erevos-13/gymnasium.git",
+      "repo" : "git@github.com:erevos-13/gymnasium.git",
       // Path of the application on target servers
       "path" : "/var/www/pub",
       // Can be used to give options in the format used in the configura-
