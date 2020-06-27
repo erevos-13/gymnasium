@@ -27,6 +27,7 @@ import { GymService } from './controllers/gym/gym.service';
 import { GymEntity } from './entitys/gym.entity';
 import { ApiModule } from './controllers/api/api.module';
 import { NewsFeedEntity } from './entitys/newsFeed.entity';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -51,10 +52,9 @@ import { NewsFeedEntity } from './entitys/newsFeed.entity';
     ClassTypeModule,
     GymModule,
     ApiModule,
-
+   
   ],
   controllers: [
-    NewsFeedController,
     NewsFeedController, AppController, BookingController, ClassesController, GymController],
   providers: [
     NewsFeedService, AppService, ClassTypeService, BookingService, ClassesService, GymService],

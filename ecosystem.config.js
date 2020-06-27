@@ -12,6 +12,8 @@ module.exports = {
       DATABASE: 'u344112773_gymnasium_dev',
       FILE_URL: "http://localhost:3000",
       PORT_URL: 3000,
+      FILE_URL_PATH_SAVE: "folders/newsFeed/images",
+      FILE_URL_LINK: "http://localhost:3000"
     },
     env_production : {
       NODE_ENV: "production",
