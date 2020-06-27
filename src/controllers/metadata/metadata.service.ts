@@ -25,18 +25,7 @@ export class MetadataService {
                 error_.stack = `${HttpStatus.NOT_FOUND}`;
                 throw error_;
             }
-            const metadataRepository = await this.connection.getRepository(MetadataEntity)
-                .createQueryBuilder("metadata_entity")
-                .leftJoinAndSelect("metadata_entity.user", "user_entity")
-                .where("metadata_entity.userUserId = :userId", { userId: `${user_.userId}` })
-                .getMany();
-
-            if (metadataRepository.length !== 0) {
-                const error_ = new Error();
-                error_.message = 'Metadata could not create';
-                error_.stack = `${HttpStatus.FOUND}`;
-                throw error_;
-            }
+            
             const metadata_ = new MetadataEntity();
             metadata_.key = body.key;
             metadata_.value = body.value;
