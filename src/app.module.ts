@@ -32,6 +32,9 @@ import { MetadataController } from './controllers/metadata/metadata.controller';
 import { MetadataModule } from './controllers/metadata/metadata.module';
 import { MetadataService } from './controllers/metadata/metadata.service';
 import { MetadataEntity } from './entitys/metadata.entity';
+import { MailerModule } from '@nestjs-modules/mailer';  
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+
 
 @Module({
   imports: [
@@ -57,6 +60,27 @@ import { MetadataEntity } from './entitys/metadata.entity';
     GymModule,
     ApiModule,
     MetadataModule,
+    MailerModule.forRoot({
+      transport: {
+        host: 'smtp.example.com',
+        port: 587,
+        secure: false, // upgrade later with STARTTLS
+        auth: {
+          user: "username",
+          pass: "password",
+        },
+      },
+      defaults: {
+        from:'"nest-modules" <modules@nestjs.com>',
+      },
+      template: {
+        dir: process.cwd() + '/templates/',
+        adapter: new HandlebarsAdapter(), // or new PugAdapter()
+        options: {
+          strict: true,
+        },
+      },
+    }),
 
   ],
   controllers: [

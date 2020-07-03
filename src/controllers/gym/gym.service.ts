@@ -63,7 +63,7 @@ export class GymService {
             }
             if (user.role !== UserRole.SUPER_ADMIN) {
                 const error_ = new Error();
-                error_.message = 'this user can not create gyms';
+                error_.message = 'this see gyms';
                 error_.stack = `${HttpStatus.FORBIDDEN}`;
                 throw error_;
             }

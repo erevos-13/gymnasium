@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsAlphanumeric, MinLength, Length, IsBoolean, IsNumber, IsSemVer, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsAlphanumeric, MinLength, Length, IsBoolean, IsNumber, IsSemVer, IsString, IsOptional } from 'class-validator';
 
 export class UserInput {
 
@@ -9,7 +9,7 @@ export class UserInput {
     email?: string;
 
     @IsNotEmpty()
-    @Length(8, 10)
+    @Length(8)
     password?: string;
 
     @IsNotEmpty()
@@ -20,6 +20,7 @@ export class UserInput {
 
 
     @IsNumber()
+    @IsOptional()
     role?: number
 
     @IsNotEmpty()

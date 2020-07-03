@@ -5,8 +5,9 @@ import { UserService } from '../../controllers/user/user.service';
 import { UserInput } from '../../models/User.input';
 import { UserDTO } from '../../models/UserDTO';
 import { UserEntity } from '../../entitys/user.entity';
-import { Repository } from 'typeorm';
+import { Repository, Connection } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { GymEntity } from '../../entitys/gym.entity';
 
 @Injectable()
 export class AuthService {
@@ -18,6 +19,7 @@ export class AuthService {
         private jwtService: JwtService,
         @InjectRepository(UserEntity)
         private usersRepository: Repository<UserEntity>,
+        private connection: Connection,
     ) {}
 
     async validateUser(email: string, pass: string): Promise<UserDTO> {
@@ -64,6 +66,16 @@ export class AuthService {
           error.stack = `${HttpStatus.FOUND}`;
           throw error;
         }
+        // INFO find i gymId exist.
+        const gymIdFound = await this.connection.createQueryBuilder(GymEntity,'gymEntity')
+        .where("gymEntity.id =:id", {id: user_.gymId}).getOne();
+        if(!gymIdFound) {
+          const error = new Error();
+          error.message = 'Gym Id is not valid';
+          error.stack = `${HttpStatus.NOT_FOUND}`;
+          throw error;
+        }
+                        
         try {
           const passwordHash = await bcrypt.hash(user_.password, 8);
           const user = new UserEntity();
@@ -71,7 +83,6 @@ export class AuthService {
           user.lastname = user_.lastname;
           user.password = passwordHash;
           user.username = user_.username;
-          user.role = user_.role;
           user.gymId = user_.gymId;
           user.booking = []
           
