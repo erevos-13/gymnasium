@@ -52,7 +52,7 @@ export class ClassesService {
         }
     }
 
-    async find(gymId: string, user: UserEntity) {
+    async find(type: number, user: UserEntity) {
         try {
             const user_ = await this.connection.getRepository(UserEntity).findOne({ userId: user.userId });
             if (!user) {
@@ -71,7 +71,7 @@ export class ClassesService {
                 }
                 return class_;
             }
-            const foundClass_ = await this.classSrv.find({ where: { gymId: gymId } });
+            const foundClass_ = await this.classSrv.find({ where: { gymId: user_.gymId, classType: type } });
             if (foundClass_.length === 0) {
                 const error_ = new Error();
                 error_.message = 'Class is not found';
