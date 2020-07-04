@@ -5,6 +5,7 @@ import { AuthService } from './auth/auth/auth.service';
 import { UserInput } from './models/User.input';
 import { UserDTO } from './models/UserDTO';
 import { LocalStrategy } from './auth/auth/local.strategy';
+import { TokenValidateInput } from './models/TokenValidateInput';
 
 @Controller()
 export class AppController {
@@ -39,6 +40,17 @@ export class AppController {
     } catch (error) {
       res.status(error.stack).send(error);
     }
+  }
+
+  @Post('auth/token')
+  async validateToken(@Req() req, @Res() res, @Body() body: TokenValidateInput) {
+    try {
+      const tokenValidate_ = await this.authService.validateToken(body.token)
+      res.status(HttpStatus.OK).send(tokenValidate_);
+    } catch (error) {
+      res.status(error.stack).send(error);
+    }
+
   }
 
 }

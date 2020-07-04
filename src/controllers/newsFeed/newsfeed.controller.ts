@@ -39,7 +39,6 @@ export class NewsFeedController {
     }
 
     @Get('folders/images/:newsFeedId')
-    @UseGuards(JwtAuthGuard)
     async getFiles(@Param('newsFeedId') newsFeedId, @Res() res): Promise<any> {
         res.sendFile(newsFeedId, { root: `folders/images` }); //../html/pub/filesOrchic/postFiles
     }
