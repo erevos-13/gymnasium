@@ -1,7 +1,7 @@
 import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ClassEntity } from '../../entitys/class.entity';
-import { Connection, Repository } from 'typeorm';
+import { Connection, Repository, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
 import { ClassInput } from '../../models/Class.input';
 import { ClassTypeEntity } from '../../entitys/classType.entity';
 import { use } from 'passport';
@@ -52,7 +52,7 @@ export class ClassesService {
         }
     }
 
-    async find(type: number, user: UserEntity) {
+    async find(dateStart: number, dateEnd: number, type: number, user: UserEntity) {
         try {
             const user_ = await this.connection.getRepository(UserEntity).findOne({ userId: user.userId });
             if (!user) {
@@ -71,11 +71,36 @@ export class ClassesService {
                 }
                 return class_;
             }
-            const foundClass_ = await this.classSrv.find({ where: { gymId: user_.gymId, classType: type } });
-            if (foundClass_.length === 0) {
+            // const foundClass_ = await this.classSrv.find({ where: { gymId: user_.gymId, classType: type, } });
+            let foundClass_;
+            if (!type) {
                 const error_ = new Error();
-                error_.message = 'Class is not found';
-                error_.stack = `${HttpStatus.NOT_FOUND}`;
+                error_.message = 'Class types  not found';
+                error_.stack = `${HttpStatus.NO_CONTENT}`;
+                throw error_;
+            }
+            let query_ = Object.assign({}, {
+                gymId: user_.gymId,
+                classType: type,
+            })
+            if (dateStart) {
+                query_ = Object.assign(query_, {
+                    dateStart: MoreThanOrEqual(+dateStart),
+
+                });
+            }
+            if (dateEnd) {
+                query_ = Object.assign(query_, {
+                    dateEnd: LessThanOrEqual(+dateEnd)
+                });
+            }
+            try {
+                foundClass_ = await this.connection.getRepository(ClassEntity).find(query_);
+            } catch (error) {
+                console.log(error);
+                const error_ = new Error();
+                error_.message = 'Class types  not found';
+                error_.stack = `${HttpStatus.NO_CONTENT}`;
                 throw error_;
             }
             return foundClass_;
