@@ -27,10 +27,14 @@ export class ClassEntity {
     @CreateDateColumn()
     UpdatedAt: number
 
-    @Column()
+    @Column({
+        width:11
+    })
     dateStart: number;
 
-    @Column()
+    @Column({
+        width: 11
+    })
     dateEnd: number;
     
     @Column()
