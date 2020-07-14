@@ -6,6 +6,11 @@ import { ClassTypeInput } from '../../models/ClassType.input';
 import { UserEntity, UserRole } from '../../entitys/user.entity';
 
 
+export enum ClassTypes {
+    CROSSFIT = 102,
+    BBJ = 101,
+
+}
 
 
 @Injectable()

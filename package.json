@@ -11,7 +11,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
+    "start:debug": "nest start  ",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
@@ -19,8 +19,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "pm2": "pm2 start ecosystem.config.js",
-    "pm2-vps": "pm2 start ecosystem.config.js --log --env production"
+    "pm2": "pm2 start ecosystem.config.js --log",
+    "pm2-vps": "pm2 start ecosystem.config.js --log --env production --inspect"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^1.5.1",

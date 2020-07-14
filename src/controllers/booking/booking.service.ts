@@ -13,6 +13,7 @@ export class BookingService {
     private logger = new Logger();
     constructor(
         @InjectRepository(BookingEntity) private bookingRepository: Repository<BookingEntity>,
+        @InjectRepository(ClassEntity) private classEntity: Repository<ClassEntity>,
         private connection: Connection,
     ) { }
 
@@ -30,9 +31,9 @@ export class BookingService {
             }
             const classRepository = await this.connection.getRepository(ClassEntity);
             const classFound = await classRepository.findOne({ where: { id: body.classId } });
-            if(!classFound) {
+            if (!classFound) {
                 const error_ = new Error();
-                error_.message = 'Class not found you can not create booking in the same class';
+                error_.message = 'Class not found you can not create booking ';
                 error_.stack = `${HttpStatus.FOUND}`;
                 throw error_;
             }
@@ -40,7 +41,7 @@ export class BookingService {
                 .createQueryBuilder("booking_entity")
                 .leftJoinAndSelect("booking_entity.user", "user_entity")
                 .where("booking_entity.userUserId = :userId", { userId: `${user_.userId}` })
-                .andWhere("booking_entity.classId = :classId", {classId: `${body.classId}`})
+                .andWhere("booking_entity.classId = :classId", { classId: `${body.classId}` })
                 .getMany();
             if (bookingRepository.length !== 0) {
                 const error_ = new Error();
@@ -51,6 +52,14 @@ export class BookingService {
 
 
             try {
+                console.log('[booking class] update class old new', classFound)
+                console.log('[booking class] update att', classFound.attendants, classFound.attendants++)
+                const updateClass = await this.connection.createQueryBuilder()
+                    .update(ClassEntity)
+                    .set({ attendants: classFound.attendants })
+                    .where("id = :id", { id: classFound.id })
+                    .execute();
+                    console.log('update class in booking', updateClass)
                 const book_ = new BookingEntity();
                 book_.classId = classFound.id;
                 book_.user = userCreateBooking_;
@@ -86,7 +95,7 @@ export class BookingService {
     }
 
 
-    async findByUserId(user: UserAuth, query: {rangeFrom: number, rangeTo: number}): Promise<BookingDTO[]> {
+    async findByUserId(user: UserAuth, query: { rangeFrom: number, rangeTo: number }): Promise<BookingDTO[]> {
         try {
             const from_ = +query.rangeFrom || 0;
             const to_ = +query.rangeTo || 10;
@@ -98,15 +107,15 @@ export class BookingService {
                 .take(to_)
                 .getMany();
             this.logger.log(bookingRepository);
-            const classesId_: string[] = bookingRepository.map((item) =>{
+            const classesId_: string[] = bookingRepository.map((item) => {
                 return item.classId;
-            } )
+            })
             let classes_: ClassEntity[]
             try {
-                classes_  = await this.connection.getRepository(ClassEntity)
-            .find({
-                id: In(classesId_)
-            });
+                classes_ = await this.connection.getRepository(ClassEntity)
+                    .find({
+                        id: In(classesId_)
+                    });
             } catch (error) {
                 classes_ = [];
             }
