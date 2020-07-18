@@ -20,7 +20,7 @@ async function bootstrap() {
   app.use(
     rateLimit({
       windowMs: 15 * 60 * 1000, // 15 minutes
-      max: 100, // limit each IP to 100 requests per windowMs
+      max: 50, // limit each IP to 100 requests per windowMs
     }),
   );
   await app.listen(process.env.PORT_URL || 3010);
