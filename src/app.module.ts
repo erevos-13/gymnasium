@@ -62,12 +62,12 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
     MetadataModule,
     MailerModule.forRoot({
       transport: {
-        host: 'smtp.example.com',
-        port: 587,
+        host: 'smtp.gmail.com',
+        port: 465,
         secure: false, // upgrade later with STARTTLS
         auth: {
-          user: "username",
-          pass: "password",
+          user: "erevos13@gmail.com",
+          pass: "6976768568",
         },
       },
       defaults: {

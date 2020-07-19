@@ -8,6 +8,7 @@ import { UserEntity } from '../../entitys/user.entity';
 import { Repository, Connection } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GymEntity } from '../../entitys/gym.entity';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class AuthService {
@@ -20,6 +21,7 @@ export class AuthService {
     @InjectRepository(UserEntity)
     private usersRepository: Repository<UserEntity>,
     private connection: Connection,
+    private readonly mailerService: MailerService
   ) { }
 
   async validateUser(email: string, pass: string): Promise<UserDTO> {
@@ -100,7 +102,15 @@ export class AuthService {
       user.password = passwordHash;
       user.username = user_.username;
       user.gymId = user_.gymId;
-      user.booking = []
+      user.booking = [];
+
+      await this.mailerService.sendMail({
+        to:user_.email,
+        from:"erevos13@gmail.com",
+        subject: "testing nest mailModule",
+        text:"walcome",
+        html: "<b>welcome</b>"
+      });
 
       const userSave = await this.usersRepository.save(user);
 
