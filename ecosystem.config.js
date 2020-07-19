@@ -15,7 +15,7 @@ module.exports = {
       FILE_URL_PATH_SAVE: "folders/newsFeed/images",
       FILE_URL_LINK: "http://localhost:3003"
     },
-    production : {
+    env : {
       NODE_ENV: "production",
       NAME: 'u344112773_gymnasium_prod',
       HOST: 'sql307.main-hosting.eu',

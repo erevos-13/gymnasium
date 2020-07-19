@@ -20,7 +20,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "pm2": "pm2 start ecosystem.config.js --log",
-    "pm2-vps": "pm2 start ecosystem.config.js --log --env production --inspect"
+    "pm2-vps": "pm2 start ecosystem.config.js --env production"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^1.5.1",
