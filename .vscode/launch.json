@@ -23,6 +23,15 @@
     "outputCapture": "std",
     "configurations": [
       
-    
+      {
+        "type": "node2",
+        "request": "launch",
+        "name": "Debug Nest Framework",
+        "args": ["${workspaceFolder}/src/main.ts"],
+        "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
+        "sourceMaps": true,
+        "cwd": "${workspaceRoot}",
+        "protocol": "inspector"
+    }
     ]
   }
