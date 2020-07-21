@@ -32,21 +32,21 @@ export class NewsFeedService {
             try {
                 let newsFeedRepository;
 
-                if (user.role !== UserRole.SUPER_ADMIN) {
+                if (user.role === UserRole.SUPER_ADMIN) {
                   newsFeedRepository =  await this.connection.getRepository(NewsFeedEntity)
                     .createQueryBuilder("news_feed_entity")
                     .skip(from_)
                     .take(to_)
                     .getMany();
-                }
-                if(user.role === UserRole.SUPER_ADMIN) {
-                   newsFeedRepository = await this.connection.getRepository(NewsFeedEntity)
+                }else {
+                    newsFeedRepository = await this.connection.getRepository(NewsFeedEntity)
                     .createQueryBuilder("news_feed_entity")
                     .where("news_feed_entity.userId = :name", { name: `${user.userId}` })
                     .skip(from_)
                     .take(to_)
                     .getMany();
                 }
+                
 
                 if (!newsFeedRepository) {
                     const error_ = new Error();
