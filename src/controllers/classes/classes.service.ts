@@ -109,7 +109,8 @@ export class ClassesService {
                 })
             }
             try {
-                foundClass_ = await this.connection.getRepository(ClassEntity).find(query_);
+                
+                foundClass_ = await this.connection.getRepository(ClassEntity).findAndCount (query_);
             } catch (error) {
                 console.log(error);
                 const error_ = new Error();
@@ -117,7 +118,7 @@ export class ClassesService {
                 error_.stack = `${HttpStatus.NO_CONTENT}`;
                 throw error_;
             }
-            return foundClass_;
+            return {classes: foundClass_[0], count: foundClass_[1]};
 
         } catch (error) {
             throw error;
