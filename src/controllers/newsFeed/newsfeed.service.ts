@@ -31,7 +31,7 @@ export class NewsFeedService {
             const to_ = +query.rangeTo || 10;
             try {
                 let newsFeedRepository;
-
+                console.log('[get news feed user role]', user.role)
                 if (user.role === UserRole.SUPER_ADMIN) {
                   newsFeedRepository =  await this.connection.getRepository(NewsFeedEntity)
                     .createQueryBuilder("news_feed_entity")
@@ -46,7 +46,7 @@ export class NewsFeedService {
                     .take(to_)
                     .getMany();
                 }
-                
+                console.log('[get news feed qury]',newsFeedRepository)
 
                 if (!newsFeedRepository) {
                     const error_ = new Error();
