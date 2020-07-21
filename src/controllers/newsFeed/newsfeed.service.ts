@@ -30,12 +30,23 @@ export class NewsFeedService {
             const from_ = +query.rangeFrom || 0;
             const to_ = +query.rangeTo || 10;
             try {
-                const newsFeedRepository = await this.connection.getRepository(NewsFeedEntity)
+                let newsFeedRepository;
+
+                if (user.role !== UserRole.SUPER_ADMIN) {
+                  newsFeedRepository =  await this.connection.getRepository(NewsFeedEntity)
+                    .createQueryBuilder("news_feed_entity")
+                    .skip(from_)
+                    .take(to_)
+                    .getMany();
+                }
+                if(user.role === UserRole.SUPER_ADMIN) {
+                   newsFeedRepository = await this.connection.getRepository(NewsFeedEntity)
                     .createQueryBuilder("news_feed_entity")
                     .where("news_feed_entity.userId = :name", { name: `${user.userId}` })
                     .skip(from_)
                     .take(to_)
                     .getMany();
+                }
 
                 if (!newsFeedRepository) {
                     const error_ = new Error();
@@ -181,10 +192,10 @@ export class NewsFeedService {
 
                 const deleteNewsFeed = async () => {
                     await this.connection.getRepository(NewsFeedEntity)
-                    .createQueryBuilder()
-                    .delete()
-                    .where("id = :id", { id: newsFeed_.id })
-                    .execute();
+                        .createQueryBuilder()
+                        .delete()
+                        .where("id = :id", { id: newsFeed_.id })
+                        .execute();
                     return { message: "News Feed deleted", newsFeedId: newsFeedId };
                 }
                 if (user.gymId === newsFeed_.gymId && user.role === UserRole.ADMIN) {
