@@ -80,7 +80,8 @@ export class ClassesService {
             //     throw error_;
             // }
             let query_ = Object.assign({}, {
-                gymId: user_.gymId
+                gymId: user_.gymId,
+                userId: user_.userId
             })
             if(type) {
                 query_ = Object.assign(query_, {
