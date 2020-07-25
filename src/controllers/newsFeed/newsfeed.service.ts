@@ -41,7 +41,7 @@ export class NewsFeedService {
                 }else {
                     newsFeedRepository = await this.connection.getRepository(NewsFeedEntity)
                     .createQueryBuilder("news_feed_entity")
-                    .where("news_feed_entity.userId = :name", { name: `${user.userId}` })
+                    .where("news_feed_entity.gymId = :gymId", { gymId: `${user.gymId}` })
                     .skip(from_)
                     .take(to_)
                     .getMany();
