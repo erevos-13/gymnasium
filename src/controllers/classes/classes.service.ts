@@ -111,7 +111,7 @@ export class ClassesService {
             }
             try {
                 
-                foundClass_ = await this.connection.getRepository(ClassEntity).findAndCount (query_);
+                foundClass_ = await this.connection.getRepository(ClassEntity).findAndCount(query_);
             } catch (error) {
                 console.log(error);
                 const error_ = new Error();
