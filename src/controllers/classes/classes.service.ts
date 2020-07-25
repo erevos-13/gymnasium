@@ -79,6 +79,7 @@ export class ClassesService {
             //     error_.stack = `${HttpStatus.NO_CONTENT}`;
             //     throw error_;
             // }
+            let pagination_ ={}
             let query_ = Object.assign({}, {
                 gymId: user_.gymId,
                 userId: user_.userId
@@ -100,18 +101,18 @@ export class ClassesService {
                 });
             }
             if(rangeFrom) {
-                query_ = Object.assign(query_, {
-                    skip: rangeFrom
+                pagination_ = Object.assign(pagination_, {
+                    skip: +rangeFrom
                 })
             }
             if(rangeTo) {
-                query_ = Object.assign(query_, {
-                    take: rangeTo
+                pagination_ = Object.assign(pagination_, {
+                    take: +rangeTo
                 })
             }
             try {
                 
-                foundClass_ = await this.connection.getRepository(ClassEntity).findAndCount(query_);
+                foundClass_ = await this.classSrv.findAndCount({where: query_,skip: +rangeFrom, take: +rangeTo});
             } catch (error) {
                 console.log(error);
                 const error_ = new Error();
