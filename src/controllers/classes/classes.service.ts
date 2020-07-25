@@ -52,7 +52,7 @@ export class ClassesService {
         }
     }
 
-    async find(dateStart: number, dateEnd: number, type: number, user: UserEntity, rangeFrom:number, rangeTo: number) {
+    async find(dateStart: number, dateEnd: number, type: number, user: UserEntity, rangeFrom:number, rangeTo: number, gymId: string) {
         try {
             const user_ = await this.connection.getRepository(UserEntity).findOne({ userId: user.userId });
             if (!user) {
@@ -80,7 +80,7 @@ export class ClassesService {
             //     throw error_;
             // }
             let query_ = Object.assign({}, {
-                gymId: user_.gymId,
+                gymId: gymId,
                 userId: user_.userId
             })
             if(type) {

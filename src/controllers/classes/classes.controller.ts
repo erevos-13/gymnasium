@@ -24,7 +24,7 @@ export class ClassesController {
     @UseGuards(JwtAuthGuard)
     async get(@Request() req, @Res() res, @Query() query) {
         try {
-            const class_ = await this.classesSrv.find(query.dateStart,query.dateEnd, query.type, req.user, query.rangeFrom, query.rangeTo);
+            const class_ = await this.classesSrv.find(query.dateStart,query.dateEnd, query.type, req.user, query.rangeFrom, query.rangeTo, query.gymId);
             res.status(HttpStatus.OK).send(class_);
         } catch (error) {
             res.status(error.stack).send(error);
