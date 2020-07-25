@@ -104,13 +104,7 @@ export class AuthService {
       user.gymId = user_.gymId;
       user.booking = [];
 
-      await this.mailerService.sendMail({
-        to:user_.email,
-        from:"erevos13@gmail.com",
-        subject: "testing nest mailModule",
-        text:"walcome",
-        html: "<b>welcome</b>"
-      });
+     
 
       const userSave = await this.usersRepository.save(user);
 
