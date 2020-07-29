@@ -52,7 +52,7 @@ export class ClassesService {
         }
     }
 
-    async find(dateStart: number, dateEnd: number, type: number, user: UserEntity, rangeFrom:number, rangeTo: number, gymId: string) {
+    async find(dateStart: number, dateEnd: number, type: number, user: UserEntity, rangeFrom: number, rangeTo: number, gymId: string) {
         try {
             const user_ = await this.connection.getRepository(UserEntity).findOne({ userId: user.userId });
             if (!user) {
@@ -79,12 +79,11 @@ export class ClassesService {
             //     error_.stack = `${HttpStatus.NO_CONTENT}`;
             //     throw error_;
             // }
-            let pagination_ ={}
+            let pagination_ = {}
             let query_ = Object.assign({}, {
-                gymId: user_.gymId,
-                userId: user_.userId
+                gymId: user_.gymId
             })
-            if(type) {
+            if (type) {
                 query_ = Object.assign(query_, {
                     classType: type
                 });
@@ -100,19 +99,19 @@ export class ClassesService {
                     dateEnd: LessThanOrEqual(+dateEnd)
                 });
             }
-            if(rangeFrom) {
+            if (rangeFrom) {
                 pagination_ = Object.assign(pagination_, {
                     skip: +rangeFrom
                 })
             }
-            if(rangeTo) {
+            if (rangeTo) {
                 pagination_ = Object.assign(pagination_, {
                     take: +rangeTo
                 })
             }
             try {
-                
-                foundClass_ = await this.classSrv.findAndCount({where: query_,skip: +rangeFrom, take: +rangeTo});
+
+                foundClass_ = await this.classSrv.findAndCount({ where: query_, skip: +rangeFrom, take: +rangeTo });
             } catch (error) {
                 console.log(error);
                 const error_ = new Error();
@@ -120,7 +119,7 @@ export class ClassesService {
                 error_.stack = `${HttpStatus.NO_CONTENT}`;
                 throw error_;
             }
-            return {classes: foundClass_[0], count: foundClass_[1]};
+            return { classes: foundClass_[0], count: foundClass_[1] };
 
         } catch (error) {
             throw error;
