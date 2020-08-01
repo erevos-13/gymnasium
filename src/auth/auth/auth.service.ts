@@ -100,7 +100,11 @@ export class AuthService {
       from: "test@test.com",
       to: "erevos13@gmail.com",
       subject: "test",
-      text:"text test"
+      html: '<h1>ok you send email</h1>'
+    }).then((res) => {
+      console.log('send email', res);
+    }).catch((err) => {
+      console.log('error email', err);
     });
     try {
       const passwordHash = await bcrypt.hash(user_.password, 8);
