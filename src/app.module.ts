@@ -60,27 +60,27 @@ import { SendGridModule } from '@ntegral/nestjs-sendgrid';
     GymModule,
     ApiModule,
     MetadataModule,
-    // MailerModule.forRoot({
-    //   transport: {
-    //     host: 'smtp.gmail.com',
-    //     port: 465,
-    //     secure: false, // upgrade later with STARTTLS
-    //     auth: {
-    //       user: "erevos13@gmail.com",
-    //       pass: "6976768568",
-    //     },
-    //   },
-    //   defaults: {
-    //     from:'"nest-modules" <modules@nestjs.com>',
-    //   },
-    //   template: {
-    //     dir: process.cwd() + '/templates/',
-    //     adapter: new HandlebarsAdapter(), // or new PugAdapter()
-    //     options: {
-    //       strict: true,
-    //     },
-    //   },
-    // }),
+    MailerModule.forRoot({
+      transport: {
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: false, // upgrade later with STARTTLS
+        auth: {
+          user: "erevos13@gmail.com",
+          pass: "6976768568",
+        },
+      },
+      defaults: {
+        from:'"nest-modules" <modules@nestjs.com>',
+      },
+      template: {
+        dir: process.cwd() + '/templates/',
+        adapter: new HandlebarsAdapter(), // or new PugAdapter()
+        options: {
+          strict: true,
+        },
+      },
+    }),
     SendGridModule.forRoot({
       apiKey: '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'
     })
