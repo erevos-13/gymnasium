@@ -97,7 +97,7 @@ export class AuthService {
     }
 
     this.sendGrid.send({
-      from: "gymnasium.com",
+      from: "gym-book@gymnasium.com",
       to: "erevos13@gmail.com",
       subject: "test",
       html: '<h1>ok you send email</h1>'
