@@ -82,7 +82,7 @@ import { SendGridModule } from '@ntegral/nestjs-sendgrid';
       },
     }),
     SendGridModule.forRoot({
-      apiKey: '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'
+      apiKey: process.env.SEND_GRID_API
     })
 
   ],
