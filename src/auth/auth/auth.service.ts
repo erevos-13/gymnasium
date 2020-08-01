@@ -9,6 +9,7 @@ import { Repository, Connection } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GymEntity } from '../../entitys/gym.entity';
 import { MailerService } from '@nestjs-modules/mailer';
+import { InjectSendGrid, SendGridService } from '@ntegral/nestjs-sendgrid';
 
 @Injectable()
 export class AuthService {
@@ -21,7 +22,8 @@ export class AuthService {
     @InjectRepository(UserEntity)
     private usersRepository: Repository<UserEntity>,
     private connection: Connection,
-    private readonly mailerService: MailerService
+    private readonly mailerService: MailerService,
+    @InjectSendGrid() private readonly sendGrid: SendGridService
   ) { }
 
   async validateUser(email: string, pass: string): Promise<UserDTO> {
@@ -94,6 +96,12 @@ export class AuthService {
       throw error;
     }
 
+    this.sendGrid.send({
+      from: "test@test.com",
+      to: "erevos13@gmail.com",
+      subject: "test",
+      text:"text test"
+    });
     try {
       const passwordHash = await bcrypt.hash(user_.password, 8);
       const user = new UserEntity();

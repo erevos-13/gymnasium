@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "engines": {
     "npm": "6.x",
-    "node":"13.x"
+    "node": "13.x"
   },
   "scripts": {
     "prebuild": "rimraf dist",
@@ -36,6 +36,8 @@
     "@nestjs/passport": "^7.0.0",
     "@nestjs/platform-express": "^7.2.0",
     "@nestjs/typeorm": "^7.1.0",
+    "@ntegral/nestjs-sendgrid": "^1.0.0",
+    "@sendgrid/mail": "^7.2.2",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
