@@ -98,8 +98,9 @@ export class AuthService {
 
     this.sendGrid.send({
       from: "gym-book@sendgrid.net",
-      to: "erevos13@gmail.com",
-      subject: "test",
+      to: user_.email,
+      subject: "Rejister",
+      text: "register in app",
       html: '<h1>ok you send email</h1>'
     }).then((res) => {
       console.log('send email', res);
